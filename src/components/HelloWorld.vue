@@ -1,113 +1,124 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <!--<ul>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="https://vuejs.org"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--Core Docs-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="https://forum.vuejs.org"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--Forum-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="https://chat.vuejs.org"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--Community Chat-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="https://twitter.com/vuejs"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--Twitter-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<br>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="http://vuejs-templates.github.io/webpack/"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--Docs for This Template-->
-        <!--</a>-->
-      <!--</li>-->
-    <!--</ul>-->
-    <!--<h2>Ecosystem</h2>-->
-    <!--<ul>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="http://router.vuejs.org/"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--vue-router-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="http://vuex.vuejs.org/"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--vuex-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="http://vue-loader.vuejs.org/"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--vue-loader-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a-->
-          <!--href="https://github.com/vuejs/awesome-vue"-->
-          <!--target="_blank"-->
-        <!--&gt;-->
-          <!--awesome-vue-->
-        <!--</a>-->
-      <!--</li>-->
-    <!--</ul>-->
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <el-select v-model="year" placeholder="请选择年份">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-input v-model="input" placeholder="请输入院校名称"></el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-input v-model="input" placeholder="请输入专业"></el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-input v-model="input" placeholder="请输入高考成绩"></el-input>
+      </el-col>
+      <el-col :span="4"> </el-col>
+      <el-col :span="4"> </el-col>
+      <el-col :span="4"> </el-col>
+    </el-row>
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      height="250">
+      <el-table-column
+        fixed
+        prop="date"
+        label="院校"
+        width="150">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="专业"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="province"
+        label="年份"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="city"
+        label="最高分"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="平均分"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="zip"
+        label="最低分"
+        width="120">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
+<script>export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      options: [{
+        value: '',
+        label: '全部'
+      }, {
+        value: '2014',
+        label: '2014'
+      }, {
+        value: '2015',
+        label: '2015'
+      }, {
+        value: '2016',
+        label: '2016'
+      }, {
+        value: '2017',
+        label: '2017'
+      }, {
+        value: '2018',
+        label: '2018'
+      }, {
+        value: '2019',
+        label: '2019'
+      }],
+      year: ''
     }
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .el-row {
+    margin-bottom: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+
 </style>
