@@ -20,53 +20,62 @@
       <el-col :span="4">
         <el-input v-model="input" placeholder="请输入高考成绩"></el-input>
       </el-col>
-      <el-col :span="4"> </el-col>
-      <el-col :span="4"> </el-col>
-      <el-col :span="4"> </el-col>
+      <el-col :span="1">
+        <el-button icon="el-icon-search" circle></el-button>
+      </el-col>
     </el-row>
-    <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-    <el-button @click="clearFilter">清除所有过滤器</el-button>
     <el-table
       ref="filterTable"
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="date"
-        label="日期"
+        prop="schoolName"
+        label="高校"
         sortable
-        width="180"
-        column-key="date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址"
-        :formatter="formatter">
+        prop="subjectName"
+        label="专业"
+        width="280">
       </el-table-column>
       <el-table-column
-        prop="tag"
-        label="标签"
+        prop="localProvinceName"
+        label="生源地"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="maxScore"
+        label="最高分"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="averageScore"
+        label="平均分"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="minScore"
+        label="最低分"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="year"
+        label="年份"
         width="100"
-        :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+        :filters="[{ text: '2014', value: '2014' }, { text: '2015', value: '2015' },{ text: '2016', value: '2016' },{ text: '2017', value: '2017' },{ text: '2018', value: '2018' }]"
         :filter-method="filterTag"
         filter-placement="bottom-end">
         <template slot-scope="scope">
           <el-tag
-            :type="scope.row.tag === '家' ? 'primary' : 'success'"
-            disable-transitions>{{scope.row.tag}}</el-tag>
+            :type="primary"
+            disable-transitions>{{scope.row.year}}</el-tag>
         </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
-
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>export default {
   data () {
     return {
@@ -93,25 +102,37 @@
         label: '2019'
       }],
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        tag: '家'
+        schoolName: '2016-05-02',
+        subjectName: '王小虎',
+        localProvinceName: '上海市普陀区金沙江路 1518 弄',
+        maxScore: '上海市普陀区金沙江路 1518 弄',
+        averageScore: '上海市普陀区金沙江路 1518 弄',
+        minScore: '上海市普陀区金沙江路 1518 弄',
+        year: '家'
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄',
-        tag: '公司'
+        schoolName: '2016-05-02',
+        subjectName: '王小虎',
+        localProvinceName: '上海市普陀区金沙江路 1518 弄',
+        maxScore: '上海市普陀区金沙江路 1518 弄',
+        averageScore: '上海市普陀区金沙江路 1518 弄',
+        minScore: '上海市普陀区金沙江路 1518 弄',
+        year: '家'
       }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-        tag: '家'
+        schoolName: '2016-05-02',
+        subjectName: '王小虎',
+        localProvinceName: '上海市普陀区金沙江路 1518 弄',
+        maxScore: '上海市普陀区金沙江路 1518 弄',
+        averageScore: '上海市普陀区金沙江路 1518 弄',
+        minScore: '上海市普陀区金沙江路 1518 弄',
+        year: '家'
       }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        tag: '公司'
+        schoolName: '2016-05-02',
+        subjectName: '王小虎',
+        localProvinceName: '上海市普陀区金沙江路 1518 弄',
+        maxScore: '上海市普陀区金沙江路 1518 弄',
+        averageScore: '上海市普陀区金沙江路 1518 弄',
+        minScore: '上海市普陀区金沙江路 1518 弄',
+        year: '家'
       }]
     }
   },
