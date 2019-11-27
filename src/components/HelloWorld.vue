@@ -52,22 +52,27 @@
       <el-table-column
         prop="maxScore"
         label="最高分"
+        sortable
         width="50">
       </el-table-column>
       <el-table-column
         prop="averageScore"
         label="平均分"
+        sortable
         width="50">
       </el-table-column>
       <el-table-column
         prop="minScore"
         label="最低分"
+        sortable
         width="50">
       </el-table-column>
       <el-table-column
         prop="year"
         label="年份"
-        width="80">
+        width="80"
+        :filters="[{ text: '2014', value: '2014' }, { text: '2015', value: '2015' }, { text: '2016', value: '2016' }, { text: '2017', value: '2017' }, { text: '2018', value: '2018' }]"
+        :filter-method="filterTag">
       </el-table-column>
     </el-table>
   </div>
@@ -98,7 +103,8 @@
         value: '2019',
         label: '2019'
       }],
-      tableData: []
+      tableData: [],
+      value: ''
     }
   },
   methods: {
@@ -112,7 +118,7 @@
       return row.address;
     },
     filterTag(value, row) {
-      return row.tag === value;
+      return row.year == value;
     },
     filterHandler(value, row, column) {
       const property = column['property'];
@@ -120,11 +126,11 @@
     },
     getScoreLine() {
       this.$axios.post('/score/find',{
-        schoolName: '',
-        subjectName: '',
-        localProvinceName: '河南',
-        score: '214',
-        year: 2014
+        schoolName: this.schoolName,
+        subjectName: this.subjectName,
+        localProvinceName: this.localProvinceName,
+        score: this.score,
+        year: this.year
       }).then((response) =>{
         this.tableData = response.data;
       });
