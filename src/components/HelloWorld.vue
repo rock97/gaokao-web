@@ -2,7 +2,7 @@
   <div class="hello">
     <el-row :gutter="20">
       <el-col :span="4">
-        <el-select id="year" v-model="value" placeholder="请选择年份">
+        <el-select v-model="year" placeholder="请选择年份">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -11,23 +11,30 @@
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="4">
-        <el-input id="schoolName" v-model="input" placeholder="请输入院校名称"></el-input>
+      <el-col :span="3">
+        <el-input  v-model="schoolName" placeholder="请输入院校名称"></el-input>
       </el-col>
       <el-col :span="4">
-        <el-input id="subjectName" v-model="input" placeholder="请输入专业"></el-input>
+        <el-input  v-model="subjectName" placeholder="请输入专业"></el-input>
       </el-col>
-      <el-col :span="4">
-        <el-input id="score" v-model="input" placeholder="请输入高考成绩"></el-input>
+      <el-col :span="3">
+        <el-input  v-model="localProvinceName" placeholder="请输入考生所在地"></el-input>
+      </el-col>
+      <el-col :span="3">
+        <el-input  v-model="score" placeholder="高考成绩"></el-input>
       </el-col>
       <el-col :span="1">
-        <el-button icon="el-icon-search" circle v-on:click='getScoreLine'></el-button>
+        <el-button icon="el-icon-search" circle v-on:click='load'></el-button>
       </el-col>
     </el-row>
     <el-table
+      height="700"
       ref="filterTable"
       :data="tableData"
-      style="width: 100%">
+      style="width: 100%"
+      slot="append"
+      v-infinite-scroll="load"
+      infinite-scroll-disabled="disabled">
       <el-table-column
         prop="schoolName"
         label="高校"
@@ -47,7 +54,7 @@
       <el-table-column
         prop="studentType"
         label="科目类型"
-        width="100">
+        width="80">
       </el-table-column>
       <el-table-column
         prop="maxScore"
@@ -104,7 +111,12 @@
         label: '2019'
       }],
       tableData: [],
-      value: ''
+      year: '',
+      schoolName:'',
+      subjectName:'',
+      localProvinceName:'',
+      score:'',
+      pageIndex:1
     }
   },
   methods: {
@@ -124,16 +136,26 @@
       const property = column['property'];
       return row[property] === value;
     },
-    getScoreLine() {
+    load() {
       this.$axios.post('/score/find',{
         schoolName: this.schoolName,
         subjectName: this.subjectName,
         localProvinceName: this.localProvinceName,
         score: this.score,
-        year: this.year
+        year: this.year,
+        pageSize:20,
+        pageIndex:this.pageIndex++,
       }).then((response) =>{
         this.tableData = response.data;
       });
+    }
+  },
+  computed: {
+    noMore () {
+      return this.count >= 20
+    },
+    disabled () {
+      return this.loading || this.noMore
     }
   }
 
@@ -162,7 +184,6 @@
     min-height: 36px;
   }
   .row-bg {
-    padding: 10px 0;
     background-color: #f9fafc;
   }
 
