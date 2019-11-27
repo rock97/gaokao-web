@@ -2,7 +2,7 @@
   <div class="hello">
     <el-row :gutter="20">
       <el-col :span="4">
-        <el-select v-model="year" placeholder="请选择年份">
+        <el-select id="year" v-model="value" placeholder="请选择年份">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -12,16 +12,16 @@
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-input v-model="input" placeholder="请输入院校名称"></el-input>
+        <el-input id="schoolName" v-model="input" placeholder="请输入院校名称"></el-input>
       </el-col>
       <el-col :span="4">
-        <el-input v-model="input" placeholder="请输入专业"></el-input>
+        <el-input id="subjectName" v-model="input" placeholder="请输入专业"></el-input>
       </el-col>
       <el-col :span="4">
-        <el-input v-model="input" placeholder="请输入高考成绩"></el-input>
+        <el-input id="score" v-model="input" placeholder="请输入高考成绩"></el-input>
       </el-col>
       <el-col :span="1">
-        <el-button icon="el-icon-search" circle></el-button>
+        <el-button icon="el-icon-search" circle v-on:click='getScoreLine'></el-button>
       </el-col>
     </el-row>
     <el-table
@@ -152,6 +152,20 @@
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;
+    },
+    getScoreLine() {
+      this.$axios.post('localhost:8081/score/find',{
+        schoolName: '',
+        subjectName: '',
+        localProvinceName: '',
+        score: '',
+        year: 2014
+      },{headers: {
+          "Content-Type":"application/json;charset=utf-8",
+          "Access-Control-Allow-Origin":"*"
+        },
+        withCredentials : true})
+      .then(response => (this.info = response,console.log(response)))
     }
   }
 
