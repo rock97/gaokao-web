@@ -82,6 +82,15 @@
         :filter-method="filterTag">
       </el-table-column>
     </el-table>
+    <div class="block">
+      <el-pagination
+        current-change="currentChange"
+        prev-click="prev"
+        next-click="next"
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -144,11 +153,23 @@
         score: this.score,
         year: this.year,
         pageSize:20,
-        pageIndex:this.pageIndex++,
+        pageIndex:this.pageIndex
       }).then((response) =>{
         this.tableData = response.data;
       });
-    }
+    },
+    currentChange(indx){
+      this.pageIndex = index
+      load()
+    },
+    prev(){
+      this.pageIndex--
+      load()
+    },
+    next(indx){
+      this.pageIndex++
+      load()
+    },
   },
   computed: {
     noMore () {
