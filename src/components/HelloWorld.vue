@@ -45,32 +45,29 @@
         width="180">
       </el-table-column>
       <el-table-column
+        prop="studentType"
+        label="科目类型"
+        width="100">
+      </el-table-column>
+      <el-table-column
         prop="maxScore"
         label="最高分"
-        width="180">
+        width="50">
       </el-table-column>
       <el-table-column
         prop="averageScore"
         label="平均分"
-        width="180">
+        width="50">
       </el-table-column>
       <el-table-column
         prop="minScore"
         label="最低分"
-        width="180">
+        width="50">
       </el-table-column>
       <el-table-column
         prop="year"
         label="年份"
-        width="100"
-        :filters="[{ text: '2014', value: '2014' }, { text: '2015', value: '2015' },{ text: '2016', value: '2016' },{ text: '2017', value: '2017' },{ text: '2018', value: '2018' }]"
-        :filter-method="filterTag"
-        filter-placement="bottom-end">
-        <template slot-scope="scope">
-          <el-tag
-            :type="primary"
-            disable-transitions>{{scope.row.year}}</el-tag>
-        </template>
+        width="80">
       </el-table-column>
     </el-table>
   </div>
@@ -101,39 +98,7 @@
         value: '2019',
         label: '2019'
       }],
-      tableData: [{
-        schoolName: '2016-05-02',
-        subjectName: '王小虎',
-        localProvinceName: '上海市普陀区金沙江路 1518 弄',
-        maxScore: '上海市普陀区金沙江路 1518 弄',
-        averageScore: '上海市普陀区金沙江路 1518 弄',
-        minScore: '上海市普陀区金沙江路 1518 弄',
-        year: '家'
-      }, {
-        schoolName: '2016-05-02',
-        subjectName: '王小虎',
-        localProvinceName: '上海市普陀区金沙江路 1518 弄',
-        maxScore: '上海市普陀区金沙江路 1518 弄',
-        averageScore: '上海市普陀区金沙江路 1518 弄',
-        minScore: '上海市普陀区金沙江路 1518 弄',
-        year: '家'
-      }, {
-        schoolName: '2016-05-02',
-        subjectName: '王小虎',
-        localProvinceName: '上海市普陀区金沙江路 1518 弄',
-        maxScore: '上海市普陀区金沙江路 1518 弄',
-        averageScore: '上海市普陀区金沙江路 1518 弄',
-        minScore: '上海市普陀区金沙江路 1518 弄',
-        year: '家'
-      }, {
-        schoolName: '2016-05-02',
-        subjectName: '王小虎',
-        localProvinceName: '上海市普陀区金沙江路 1518 弄',
-        maxScore: '上海市普陀区金沙江路 1518 弄',
-        averageScore: '上海市普陀区金沙江路 1518 弄',
-        minScore: '上海市普陀区金沙江路 1518 弄',
-        year: '家'
-      }]
+      tableData: []
     }
   },
   methods: {
@@ -154,18 +119,15 @@
       return row[property] === value;
     },
     getScoreLine() {
-      this.$axios.post('localhost:8081/score/find',{
+      this.$axios.post('/score/find',{
         schoolName: '',
         subjectName: '',
-        localProvinceName: '',
-        score: '',
+        localProvinceName: '河南',
+        score: '214',
         year: 2014
-      },{headers: {
-          "Content-Type":"application/json;charset=utf-8",
-          "Access-Control-Allow-Origin":"*"
-        },
-        withCredentials : true})
-      .then(response => (this.info = response,console.log(response)))
+      }).then((response) =>{
+        this.tableData = response.data;
+      });
     }
   }
 
