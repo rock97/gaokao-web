@@ -24,7 +24,7 @@
         <el-input  v-model="score" placeholder="高考成绩"></el-input>
       </el-col>
       <el-col :span="1">
-        <el-button icon="el-icon-search" circle v-on:click='load'></el-button>
+        <el-button icon="el-icon-search" circle v-on:click='loadData'></el-button>
       </el-col>
     </el-row>
     <el-table
@@ -84,11 +84,13 @@
     </el-table>
     <div class="block">
       <el-pagination
-        current-change="currentChange"
-        prev-click="prev"
-        next-click="next"
-        layout="prev, pager, next"
-        :total="1000">
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 50, 100, 200]"
+        :page-size="20"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
       </el-pagination>
     </div>
   </div>
@@ -99,7 +101,7 @@
     return {
       options: [{
         value: '',
-        label: '全部'
+        label: '全部年份'
       }, {
         value: '2014',
         label: '2014'
@@ -125,7 +127,10 @@
       subjectName:'',
       localProvinceName:'',
       score:'',
-      pageIndex:1
+      pageIndex:1,
+      pageSize:20,
+      total:0,
+      currentPage:1
     }
   },
   methods: {
@@ -152,24 +157,30 @@
         localProvinceName: this.localProvinceName,
         score: this.score,
         year: this.year,
-        pageSize:20,
+        pageSize:this.pageSize,
         pageIndex:this.pageIndex
       }).then((response) =>{
-        this.tableData = response.data;
+        this.tableData = response.data.data;
+        this.total = response.data.total;
+        this.pageSize = response.data.pageSize;
+        this.pageIndex = response.data.pageIndex;
       });
     },
-    currentChange(indx){
-      this.pageIndex = index
-      load()
+    loadData() {
+      this.currentPage = 1;
+      this.pageIndex = 1
+      this.load()
     },
-    prev(){
-      this.pageIndex--
-      load()
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val
+      this.load()
     },
-    next(indx){
-      this.pageIndex++
-      load()
-    },
+    handleCurrentChange(val) {
+      this.pageIndex = val
+      console.log(`当前页: ${val}`);
+      this.load()
+    }
   },
   computed: {
     noMore () {

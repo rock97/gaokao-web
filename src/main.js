@@ -7,7 +7,7 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://localhost:8282/'
+axios.defaults.baseURL = 'http://www.solso.club/'
 
 Vue.use(axios)
 Vue.use(ElementUI)
