@@ -11,23 +11,26 @@
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="3">
-        <el-select
-          v-model="schoolName"
-          multiple
-          filterable
-          remote
-          reserve-keyword
-          placeholder="请输入院校名称"
-          :remote-method="seachSchool"
-          :loading="loading">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+      <!--<el-col :span="3">-->
+        <!--<el-select-->
+          <!--v-model="schoolName"-->
+          <!--multiple-->
+          <!--filterable-->
+          <!--remote-->
+          <!--reserve-keyword-->
+          <!--placeholder="请输入院校名称"-->
+          <!--:remote-method="seachSchool"-->
+          <!--:loading="loading">-->
+          <!--<el-option-->
+            <!--v-for="item in optionsSchoolName"-->
+            <!--:key="item.value"-->
+            <!--:label="item.label"-->
+            <!--:value="item.value">-->
+          <!--</el-option>-->
+        <!--</el-select>-->
+      <!--</el-col>-->
+      <el-col :span="4">
+        <el-input  v-model="schoolName" placeholder="请输入院校"></el-input>
       </el-col>
       <el-col :span="4">
         <el-input  v-model="subjectName" placeholder="请输入专业"></el-input>
@@ -137,9 +140,8 @@
         label: '2019'
       }],
       tableData: [],
-      options: [],
-      schoolName: [],
-      list: [],
+      optionsSchoolName: [],
+      schoolName:'',
       loading: false,
       year: '',
       subjectName:'',
@@ -173,7 +175,8 @@
         this.$axios.post('/score/findSchoolName', {
           name: query
         }).then((response) => {
-          this.options = response.data
+          console.log(response)
+          this.optionsSchoolName = response.data
         })
       }
     },
